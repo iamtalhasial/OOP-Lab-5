@@ -19,16 +19,17 @@ public class InstagramAccount {
         }
         accountCount++;
     }
+
     public InstagramAccount(InstagramAccount other) {
         this.username = other.username;
         this.displayName = other.displayName;
         this.bio = other.bio;
         this.isPrivate = other.isPrivate;
-        this.recentPostLikes = other.recentPostLikes; // Shared array reference
+        this.recentPostLikes = other.recentPostLikes;
         accountCount++;
     }
 
-    // Deep / Flexible Copy Constructor
+
     public InstagramAccount(InstagramAccount other, boolean deep) {
         this.username = other.username;
         this.displayName = other.displayName;
