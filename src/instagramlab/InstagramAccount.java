@@ -19,6 +19,31 @@ public class InstagramAccount {
         }
         accountCount++;
     }
+    public InstagramAccount(InstagramAccount other) {
+        this.username = other.username;
+        this.displayName = other.displayName;
+        this.bio = other.bio;
+        this.isPrivate = other.isPrivate;
+        this.recentPostLikes = other.recentPostLikes; // Shared array reference
+        accountCount++;
+    }
+
+    // Deep / Flexible Copy Constructor
+    public InstagramAccount(InstagramAccount other, boolean deep) {
+        this.username = other.username;
+        this.displayName = other.displayName;
+        this.bio = other.bio;
+        this.isPrivate = other.isPrivate;
+        if (deep) {
+            this.recentPostLikes = new int[other.recentPostLikes.length];
+            for (int i = 0; i < other.recentPostLikes.length; i++) {
+                this.recentPostLikes[i] = other.recentPostLikes[i];
+            }
+        } else {
+            this.recentPostLikes = other.recentPostLikes;
+        }
+        accountCount++;
+    }
 
     public String getUsername() { return username; }
     public String getDisplayName() { return displayName; }
