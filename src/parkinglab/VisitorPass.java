@@ -13,7 +13,6 @@ public class VisitorPass {
 
     public void activate() { active = true; }
     public void deactivate() { active = false; }
-
     public void displayPass() {
         System.out.println(passId + " | " + visitorName + " | Active: " + active);
     }

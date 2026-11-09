@@ -6,6 +6,7 @@ public class FoodOrder {
     private String address;
     private double[] itemPrices;
     private String status;
+    private RestaurantOffer offer;
     private static int orderCount = 0;
 
     public FoodOrder(String orderId, String customerName, String address, double[] prices, String status) {
@@ -14,29 +15,38 @@ public class FoodOrder {
         this.address = address;
         this.itemPrices = new double[3];
         for (int i = 0; i < 3; i++) {
-            this.itemPrices[i] = (prices[i] >= 0) ? prices[i] : 0;
+            this.itemPrices[i] = (prices != null && prices[i] >= 0) ? prices[i] : 0;
         }
         this.status = status;
+        this.offer = null;
         orderCount++;
     }
 
     public double calculateItemsTotal() {
         double sum = 0;
-        for (double p : itemPrices) {
-            sum += p;
-        }
+        for (double p : itemPrices) sum += p;
         return sum;
     }
 
-    public void advanceStatus() {
-        if (status.equals("Preparing")) {
-            status = "Ready";
-        } else if (status.equals("Ready")) {
-            status = "Picked Up";
-        } else if (status.equals("Picked Up")) {
-            status = "Delivered";
+    public double calculatePayableTotal() {
+        double total = calculateItemsTotal();
+        if (offer != null) {
+            total -= total * (offer.getDiscountPercent() / 100.0);
         }
-        System.out.println(orderId + " status: " + status);
+        return total;
+    }
+
+    public void assignOffer(RestaurantOffer offer) {
+        if (this.offer != null) {
+            System.out.println("Offer assignment denied: order already has an offer.");
+            return;
+        }
+        if (offer == null || offer.isAssigned()) {
+            System.out.println("Offer assignment denied: already assigned.");
+            return;
+        }
+        this.offer = offer;
+        offer.markAssigned();
     }
 
     public void cancelOrder() {
@@ -44,13 +54,14 @@ public class FoodOrder {
             System.out.println("Cancellation denied after pickup.");
         } else {
             status = "Cancelled";
-            System.out.println(orderId + " status: " + status);
         }
     }
 
-    public void displayOrder() {
-        System.out.println(orderId + " | " + customerName + " | Items total: " + calculateItemsTotal() + " | " + status);
-    }
-
+    public RestaurantOffer getOffer() { return offer; }
     public static int getOrderCount() { return orderCount; }
+
+    public void displayOrder() {
+        String offerStr = (offer != null) ? offer.getOfferId() : "None";
+        System.out.println(orderId + " | Offer: " + offerStr + " | Payable: " + calculatePayableTotal());
+    }
 }

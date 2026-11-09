@@ -6,57 +6,39 @@ public class Appointment {
     private String date;
     private String time;
     private String status;
-    private int[] waitingTimes;
-    private static int appointmentCount = 0;
+    private ClinicRoom assignedRoom;
 
-    public Appointment(String id, String patientName, String date, String time, String status, int[] waits) {
+    public Appointment(String id, String patientName, String date, String time) {
         this.appointmentId = id;
         this.patientName = patientName;
         this.date = date;
         this.time = time;
-        this.status = status;
-        this.waitingTimes = new int[3];
-        for (int i = 0; i < 3; i++) {
-            this.waitingTimes[i] = waits[i];
-        }
-        appointmentCount++;
+        this.status = "Scheduled";
+        this.assignedRoom = null;
     }
 
-    public void reschedule(String newDate, String newTime) {
-        if (status.equals("Cancelled")) {
-            System.out.println("Reschedule denied: appointment cancelled.");
-        } else {
-            this.date = newDate;
-            this.time = newTime;
-            System.out.println(appointmentId + " rescheduled: " + date + " " + time);
-        }
+    public void assignRoom(ClinicRoom room) {
+        this.assignedRoom = room;
     }
 
     public void checkIn() {
         if (status.equals("Cancelled")) {
             System.out.println("Check-in denied: appointment cancelled.");
-        } else {
+            return;
+        }
+        if (assignedRoom != null && assignedRoom.admitPatient()) {
             status = "Checked In";
-            System.out.println(appointmentId + " checked in.");
+        } else {
+            System.out.println("Check-in denied: Room capacity full or unassigned.");
         }
     }
 
     public void cancel() {
-        status = "Cancelled";
-        System.out.println(appointmentId + " cancelled.");
-    }
-
-    public double calculateAverageWait() {
-        int sum = 0;
-        for (int w : waitingTimes) {
-            sum += w;
-        }
-        return sum / 3.0;
+        this.status = "Cancelled";
     }
 
     public void displayAppointment() {
-        System.out.println(appointmentId + " | " + date + " " + time + " | " + status + " | Avg wait: " + calculateAverageWait());
+        String rNo = (assignedRoom != null) ? assignedRoom.getRoomNo() : "None";
+        System.out.println(appointmentId + " | " + status + " | Room: " + rNo);
     }
-
-    public static int getAppointmentCount() { return appointmentCount; }
 }

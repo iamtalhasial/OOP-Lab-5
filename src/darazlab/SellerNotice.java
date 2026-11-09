@@ -13,7 +13,6 @@ public class SellerNotice {
 
     public void setMessage(String message) { this.message = message; }
     public void deactivate() { this.active = false; }
-
     public void displayNotice() {
         System.out.println(noticeId + " | " + message + " | Active: " + active);
     }

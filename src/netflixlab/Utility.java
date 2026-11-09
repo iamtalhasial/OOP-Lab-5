@@ -2,23 +2,20 @@ package netflixlab;
 
 public class Utility {
     public static void main(String[] args) {
-        Movie[] movies = new Movie[2];
-        movies[0] = new Movie("M-101", "Interstellar", 169, 0, new int[]{20, 42, 10});
-        movies[1] = new Movie("M-102", "Inception", 148, 0, new int[]{30, 20, 15});
+        SubscriptionPlan standardPlan = new SubscriptionPlan("P-1", "Standard", 1200.0);
 
-        for (Movie m : movies) {
-            m.displayDetails();
-        }
+        ViewingRecord v1 = new ViewingRecord("M-101", "Interstellar", 169);
+        ViewingRecord v2 = new ViewingRecord("M-102", "Inception", 148);
 
-        movies[0].pauseAt(42);
-        movies[1].pauseAt(300);
+        v1.setPlan(standardPlan);
+        v2.setPlan(standardPlan);
 
-        Movie alias = movies[0];
-        System.out.println("Alias progress: " + alias.getProgressMinutes());
+        v1.pauseAt(42);
+        v2.pauseAt(300); // Invalid pause position test
 
-        System.out.println("Movie objects created: " + Movie.getMovieCount());
+        v1.displayDetails();
+        v2.displayDetails();
 
-        SubscriptionPlan plan = new SubscriptionPlan("P-1", "Standard", 1200.0);
-        plan.displayPlan();
+        System.out.println("SubscriptionPlan objects created: " + SubscriptionPlan.getPlanCount());
     }
 }

@@ -2,22 +2,24 @@ package darazlab;
 
 public class Utility {
     public static void main(String[] args) {
-        Product[] products = new Product[2];
-        products[0] = new Product("WM-510", "Mouse", 2499.0, 18, new double[]{2500, 2400, 2600});
-        products[1] = new Product("KB-220", "Keyboard", 3499.0, 6, new double[]{3400, 3500, 3600});
+        Product mouse = new Product("WM-510", "Mouse", 2499.0, 18, new double[]{2500, 2400, 2600});
+        Product keyboard = new Product("KB-220", "Keyboard", 3499.0, 6, new double[]{3400, 3500, 3600});
 
-        for (Product p : products) {
-            p.displayProduct();
-        }
+        Product shallow = new Product(mouse);
+        Product deep = new Product(mouse, true);
 
-        products[0].purchase(2);
-        products[1].purchase(30);
+        mouse.updateCompetitorPrice(0, 2800);
 
-        Product alias = products[0];
-        alias.setPrice(2399.0);
-        System.out.println("Updated via alias | " + products[0].getProductCode() + " | Price: " + products[0].getPrice());
+        System.out.println("Mouse competitor average: " + mouse.calculateAverageCompetitorPrice());
+        System.out.println("Shallow: " + shallow.calculateAverageCompetitorPrice() + " | Deep: " + deep.calculateAverageCompetitorPrice());
 
-        System.out.println("Product objects created: " + Product.getProductCount());
+        Product cheaper = mouse.getCheaperProduct(keyboard);
+        System.out.println("Cheaper product: " + cheaper.getProductCode() + " | Difference: " + mouse.priceDifference(keyboard));
+
+        mouse.purchase(2);
+        keyboard.purchase(30); // Oversell test
+
+        System.out.println("Product objects: " + Product.getProductCount());
 
         SellerNotice notice = new SellerNotice("N-1", "Eid Sale", true);
         notice.displayNotice();

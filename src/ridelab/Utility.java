@@ -2,23 +2,20 @@ package ridelab;
 
 public class Utility {
     public static void main(String[] args) {
-        Ride[] rides = new Ride[2];
-        rides[0] = new Ride("R-908", "UCP", "Gulberg", 720.0, new int[]{5, 12, 8}, "Driver Arriving");
-        rides[1] = new Ride("R-909", "UCP", "Johar Town", 500.0, new int[]{3, 10, 7}, "Driver Arriving");
+        Ride r1 = new Ride("R-908", "UCP", "Gulberg", 720.0);
+        Ride r2 = new Ride("R-909", "UCP", "Johar Town", 500.0);
 
-        for (Ride r : rides) {
-            r.displayRide();
-        }
+        Driver driver = new Driver("D-10", "Mr. Kamran");
+        driver.addRide(r1);
+        driver.addRide(r2);
 
-        rides[1].completeRide(500.0);
+        driver.displayRides();
+        System.out.println("Combined estimated fare: " + driver.calculateAssignedFare());
 
-        Ride alias = rides[0];
-        alias.startRide();
-        rides[0].completeRide(750.0);
+        driver.addRide(r1); // Duplicate attempt
 
-        System.out.println("Total rides created: " + Ride.getRideCount());
-
-        DriverRating rating = new DriverRating("DR-1", 5, "Smooth journey");
-        rating.displayRating();
+        r2.completeRide(500.0); // Rejected before start
+        r1.startRide();
+        r1.completeRide(750.0);
     }
 }

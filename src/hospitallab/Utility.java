@@ -2,24 +2,22 @@ package hospitallab;
 
 public class Utility {
     public static void main(String[] args) {
-        Appointment[] appointments = new Appointment[2];
-        appointments[0] = new Appointment("AP-317", "Bilal", "Monday", "10:30 AM", "Scheduled", new int[]{10, 15, 20});
-        appointments[1] = new Appointment("AP-318", "Zainab", "Tuesday", "11:00 AM", "Scheduled", new int[]{5, 10, 15});
+        ClinicRoom roomC12 = new ClinicRoom("C-12", 2);
 
-        for (Appointment app : appointments) {
-            app.displayAppointment();
-        }
+        Appointment ap1 = new Appointment("AP-317", "Bilal", "Monday", "10:30 AM");
+        Appointment ap2 = new Appointment("AP-318", "Zainab", "Tuesday", "11:00 AM");
 
-        Appointment alias = appointments[0];
-        alias.reschedule("Monday", "11:30 AM");
+        ap1.assignRoom(roomC12);
+        ap2.assignRoom(roomC12);
 
-        appointments[1].cancel();
-        appointments[1].checkIn();
+        ap1.checkIn();
+        ap2.cancel();
+        ap2.checkIn(); // Denied test
 
-        System.out.println("Appointments created: " + Appointment.getAppointmentCount());
+        ap1.displayAppointment();
+        ap2.displayAppointment();
 
-        ClinicRoom room = new ClinicRoom("C-12", 2);
-        room.checkInVisitor();
-        room.displayRoom();
+        roomC12.displayRoom();
+        System.out.println("ClinicRoom objects created: " + ClinicRoom.getRoomCount());
     }
 }

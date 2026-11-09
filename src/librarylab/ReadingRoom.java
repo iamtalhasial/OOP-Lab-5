@@ -20,9 +20,7 @@ public class ReadingRoom {
     }
 
     public void freeSeat() {
-        if (occupied > 0) {
-            occupied--;
-        }
+        if (occupied > 0) occupied--;
     }
 
     public void displayRoom() {

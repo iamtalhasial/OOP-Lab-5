@@ -12,7 +12,6 @@ public class ATM {
     }
 
     public void setWorking(boolean working) { this.working = working; }
-
     public void displayATM() {
         System.out.println(machineId + " | " + location + " | Working: " + working);
     }
