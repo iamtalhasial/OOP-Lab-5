@@ -2,7 +2,7 @@ package airlinelab;
 
 public class TravelBooking {
     private final String bookingReference;
-    String route; // default (package-private) access as required
+    String route;
     private String travelDate;
     private String seatNumber;
     private String status;
